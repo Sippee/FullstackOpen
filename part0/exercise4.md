@@ -5,7 +5,7 @@ sequenceDiagram
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
-    server-->>browser: HTTP 302 redirect to https://studies.cs.helsinki.fi/exampleapp/notes
+    server-->>browser: redirect to /notes
     deactivate server
 
     Note right of browser: Sends the note to the server and then redirects back to /notes
