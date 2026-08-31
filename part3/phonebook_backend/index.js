@@ -6,22 +6,13 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'dist')))
-app.get('*', (request, response) => {
-  if (request.path.startsWith('/api')) {
-    response.status(404).end()
-    return
-  }
-
-  response.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
-
 
 morgan.token('body', request => {
   return request.method === 'POST' ? JSON.stringify(request.body) : ''
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 let persons = [
   {
@@ -99,12 +90,7 @@ app.get('/info', (request, response) => {
   `)
 })
 
-app.get('*', (request, response) => {
-  if (request.path.startsWith('/api')) {
-    response.status(404).end()
-    return
-  }
-
+app.get(/^(?!\/api).*$/, (request, response) => {
   response.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
